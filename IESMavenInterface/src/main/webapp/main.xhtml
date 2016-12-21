@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Main Page</title>
+    </h:head>
+    <h:body>
+         <p:panelGrid columns="2">
+            <h:form id="registerForm">
+                <p:panelGrid columns="2" styleClass=".mypanelgrid">
+                    <h:outputText value="Mail"/>
+                    <h:outputText value="#{edit.mail}"/>
+                    <h:outputText value="Password:"/>
+                    <input type="text" id="passwordText" name="password"  value="#{edit.pass}"/>
+                    <h:outputText value="Name:"/>
+                    <input type="text" id="nomeText" name="nome" value="#{edit.nome}"/>
+                    <h:outputText value="User type:"/>
+                    <input type="text" id="typeText" name="type" value="#{edit.type}"/>
+                    <h:outputText value="Group id:"/>
+                    <h:outputText value="#{edit.group}"/>
+                    <h:outputText value="Token:"/>
+                    <h:outputText value="#{edit.token}"/>
+                    <p:commandButton action="#{logout.out}" value="Log Out" icon="ui-icon-star" />
+                    <p:commandButton action="#{edit.editUser()}" value="Edit" icon="ui-icon-star" />
+                </p:panelGrid>
+            </h:form>
+            <p:panelGrid columns="1">
+                <p:inputTextarea id = "logger" rows="10" cols="70" readonly="true" queryDelay="750" minQueryLength="4" />
+                <p:button value="Refresh" icon="ui-icon-star" />
+            </p:panelGrid>
+        </p:panelGrid>
+    </h:body>
+</html>
+

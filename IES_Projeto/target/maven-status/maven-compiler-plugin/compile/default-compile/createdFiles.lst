@@ -1,0 +1,9 @@
+beans\AbstractFacade.class
+jsf\ClientesController$1.class
+beans\ClientesFacade.class
+jsf\util\JsfUtil.class
+entidade\Clientes.class
+jsf\ClientesController.class
+jsf\ClientesController$ClientesControllerConverter.class
+jsf\util\PaginationHelper.class
+entidade\Clientes_.class

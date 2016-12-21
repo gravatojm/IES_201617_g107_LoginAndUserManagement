@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://deti-ies-5.ua.pt:8080/IES_WebService/IES_WebService?WSDL" uri="wsdl/deti-ies-5.ua.pt_8080/IES_WebService/IES_WebService.wsdl"/>
+    <system systemId="http://deti-ies-5.ua.pt:8080/IES_WebService/IES_WebService?xsd=1" uri="wsdl/deti-ies-5.ua.pt_8080/IES_WebService/IES_WebService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/IES_WebService/IES_WebService?wsdl" uri="wsdl/localhost_8080/IES_WebService/IES_WebService.wsdl"/>
+    <system systemId="http://localhost:8080/IES_WebService/IES_WebService?xsd=1" uri="wsdl/localhost_8080/IES_WebService/IES_WebService.xsd_1.xsd"/>
+</catalog>
