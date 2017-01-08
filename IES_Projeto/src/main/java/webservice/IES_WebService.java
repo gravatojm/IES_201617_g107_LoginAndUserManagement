@@ -33,12 +33,22 @@ public class IES_WebService {
     private ClientesFacade ejbRef;
     @EJB
     private LoggerFacade logRef;
-    
-    private ClientRMQ rabbitMQ = new ClientRMQ();;
 
     /**
      * Web service operation
+     * 
+     * criarCliente
+     * 
+     * Regista um novo utilizador na base de dados
+     * 
+     * mail     - email do utilizador,
+     * password - password do utilizador,
+     * nome     - nome do utilizador,
+     * tipo     - tipo do utilizador, se o serviço necessitar de os diferenciar
+     * grupo    - serviço ao qual o utilizador pertence
+     * 
      */
+    
     @WebMethod(operationName = "criarCliente")
     public boolean criarCliente(
             @WebParam(name = "mail") String mail,
@@ -61,26 +71,32 @@ public class IES_WebService {
             cliente.setPassword(password);
             cliente.setTipo(tipo);
             cliente.setGrupo(grupo);
-            //cliente.createToken();
             ejbRef.create(cliente);
+            
             logger.setSuccess("yes");
             logRef.create(logger);
             
-            rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
-            
             return true;
         }
+        
         logger.setSuccess("no");
         logRef.create(logger);
-        
-        rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
-        
+  
         return false;
     }
 
     /**
      * Web service operation
+     * 
+     * login
+     * 
+     * Identifica que um utilizador como utilizador registado
+     * 
+     * mail - email do utilizador,
+     * password - password do utilizador
+     * 
      */
+    
     @WebMethod(operationName = "login")
     public Clientes login(@WebParam(name = "mail") String mail,
             @WebParam(name = "password") String password) {
@@ -95,23 +111,25 @@ public class IES_WebService {
         if (result.getMail() != null) {
             logger.setSuccess("yes");
             logRef.create(logger);
-            
-            rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
 
             return result;
         }
 
         logger.setSuccess("no");
         logRef.create(logger);
-        
-        rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
 
         return result;
     }
 
     /**
      * Web service operation
+     * 
+     * listaClientes
+     * 
+     * Lista todos os utilizadores registados na base de dados
+     * 
      */
+    
     @WebMethod(operationName = "listaClientes")
     public List listaClientes() {
         return ejbRef.findAll();
@@ -119,7 +137,18 @@ public class IES_WebService {
 
     /**
      * Web service operation
+     * 
+     * removerCliente
+     * 
+     * Remove um registo de um utilizador da base de dados
+     *
+     * mail     - email do utilizador,
+     * password - password do utilizador,
+     * nome     - nome do utilizador,
+     * tipo     - tipo do utilizador, se o serviço necessitar de os diferenciar
+     * 
      */
+    
     @WebMethod(operationName = "removerCliente")
     public boolean removerCliente(@WebParam(name = "mail") String mail,
             @WebParam(name = "password") String password,
@@ -140,21 +169,25 @@ public class IES_WebService {
         if (!ejbRef.registExists(mail)) {
             logger.setSuccess("yes");
             logRef.create(logger);
-            
-            rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
-            
+                
             return true;
         }
         logger.setSuccess("false");
         logRef.create(logger);
-        
-        rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
         
         return false;
     }
 
     /**
      * Web service operation
+     * 
+     * validateToken
+     * 
+     * Identifica um utilizador como utilizador registado,
+     * a partir de um token de sessao
+     * 
+     * token - um token de sessao
+     * 
      */
     @WebMethod(operationName = "validateToken")
     public Clientes validateToken(@WebParam(name = "token") String token) {
@@ -171,21 +204,29 @@ public class IES_WebService {
             logger.setSuccess("yes");
             logRef.create(logger);
             
-            rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
-            
             return result;
         }
         logger.setSuccess("no");
         logRef.create(logger);
-        
-        rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
 
         return result;
     }
 
     /**
      * Web service operation
+     * 
+     * editarCliente
+     * 
+     * Edita os dados de um utilizador registado
+     * Nao é possivel alterar o email
+     * 
+     * mail     - email do utilizador,
+     * password - password do utilizador,
+     * nome     - nome do utilizador,
+     * tipo     - tipo do utilizador, se o serviço necessitar de os diferenciar
+     * 
      */
+    
     @WebMethod(operationName = "editarCliente")
     public boolean editarCliente(@WebParam(name = "mail") String mail,
             @WebParam(name = "password") String password,
@@ -208,23 +249,28 @@ public class IES_WebService {
 
             logger.setSuccess("yes");
             logRef.create(logger);
-            
-            rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
 
             return true;
         }
 
         logger.setSuccess("no");
-        logRef.create(logger);
-        
-        rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
+        logRef.create(logger);   
 
         return false;
     }
 
     /**
      * Web service operation
+     * 
+     * logout
+     * 
+     * Termina a sessao de um utilizador
+     * 
+     * mail     - email do utilizador,
+     * password - password do utilizador,
+     * 
      */
+    
     @WebMethod(operationName = "logout")
     public boolean logout(@WebParam(name = "mail") String mail, @WebParam(name = "password") String password) {
         //TODO write your implementation code here:
@@ -241,17 +287,24 @@ public class IES_WebService {
             logger.setSuccess("yes");
             logRef.create(logger);
             
-            rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
-            
             return result;
         }
         logRef.create(logger);
         logger.setSuccess("no");
         
-        rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
-        
         return result;
     }
+    
+    /**
+     * Web service operation
+     * 
+     * logoutToken
+     * 
+     * Termina a sessao de um utilizador, a partir de um token de sessao
+     * 
+     * token - token de sessao
+     * 
+     */
 
     @WebMethod(operationName = "logoutToken")
     public boolean logoutToken(@WebParam(name = "token") String token) {
@@ -274,21 +327,23 @@ public class IES_WebService {
             logger.setSuccess("yes");
             logRef.create(logger);
             
-            rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
-            
             return result;
         }
         logger.setSuccess("no");
         logRef.create(logger);
-        
-        rabbitMQ.sendMessage(logger.getData() + " | " + logger.getEventstatus() + " | " + logger.getUsermail() + " | " + logger.getSuccess());
         
         return result;
     }
 
     /**
      * Web service operation
+     * 
+     * getLog
+     * 
+     * Lista de todos os registos da base de dados de Log
+     * 
      */
+    
     @WebMethod(operationName = "getLog")
     public List<Logger> getLog(@WebParam(name = "password") String password) {
         if(password.equals("password")) {

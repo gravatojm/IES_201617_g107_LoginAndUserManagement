@@ -135,7 +135,6 @@ public class Clientes implements Serializable {
             String login = getMail() + getPassword() + randomStr;
             MessageDigest md = MessageDigest.getInstance("SHA");
             byte[] byteData = md.digest(login.getBytes());
-            // return Base64.getEncoder().encodeToString(byteData);
             token = DatatypeConverter.printBase64Binary(byteData);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
